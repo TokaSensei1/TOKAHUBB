@@ -160,13 +160,12 @@
     </div>
 
     <script>
-        // Nomor WhatsApp tujuan (GANTI KALO PERLU)
+        // Nomor WhatsApp tujuan
         const phoneNumber = "087873962512";
         
-        // Fungsi buat buka WhatsApp
         function openWhatsApp() {
-            // Format nomor (hapus 0 di depan, tambah kode negara 62)
-            let formattedNumber = phoneNumber.replace(/\D/g, ''); // Hapus semua non-digit
+            // Format nomor
+            let formattedNumber = phoneNumber.replace(/\D/g, '');
             
             if (formattedNumber.startsWith('0')) {
                 formattedNumber = '62' + formattedNumber.substring(1);
@@ -174,33 +173,22 @@
                 formattedNumber = '62' + formattedNumber;
             }
             
-            // Buat URL WhatsApp
-            // Pake API wa.me biar otomatis buka app kalo ada
+            // URL WhatsApp
+            const waScheme = `whatsapp://send?phone=${formattedNumber}`;
             const waUrl = `https://wa.me/${formattedNumber}`;
             
-            // Alternatif: pake URL scheme langsung (lebih cepat buka app)
-            const waScheme = `whatsapp://send?phone=${formattedNumber}`;
-            
-            // Coba buka pake scheme dulu (biar buka app)
+            // Coba buka app
             window.location.href = waScheme;
             
-            // Fallback: kalo gagal, buka web version
+            // Fallback ke web
             setTimeout(function() {
-                // Cek apakah udah pindah halaman (kalo sukses buka app, biasanya gak bakal sampe sini)
                 if (!document.hidden) {
                     window.location.href = waUrl;
                 }
             }, 500);
-            
-            // Logging (opsional)
-            console.log(`Membuka WhatsApp dengan nomor: ${formattedNumber}`);
         }
         
-        // Pasang event listener ke tombol
         document.getElementById('waButton').addEventListener('click', openWhatsApp);
-        
-        // Opsional: Buka otomatis pas halaman dimuat (kalo mau)
-        // window.onload = openWhatsApp;
     </script>
 </body>
 </html>
